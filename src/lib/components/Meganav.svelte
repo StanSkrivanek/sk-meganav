@@ -46,7 +46,7 @@
 				});
 			}
 
-			
+
 			if (w < 991) {
 				menuLinks.forEach((link) => {
 					link.addEventListener('click', () => {
@@ -309,6 +309,7 @@
 		.sub-menu.active {
 			visibility: visible;
 			opacity: 1;
+			transition: all 0.5s ease;
 		}
 
 		.nav-btn--trigger {
@@ -320,6 +321,7 @@
 		.menu-overlay.active {
 			visibility: visible;
 			opacity: 1;
+			transition: all 0.5s ease;
 		}
 
 		.nav-btn--back {
@@ -359,12 +361,13 @@
 			overflow-y: auto;
 			height: 100%;
 			transform: translate(-100%);
-			transition: all 0.5s ease;
+			/* transition: all 0.5s ease; */
 			z-index: 200;
 		}
 
 		.menu.active {
 			transform: translate(0%);
+			transition: all 0.5s ease;
 		}
 
 		.nav-header-mobile {
@@ -431,6 +434,7 @@
 			transform: translate(0%);
 			visibility: visible;
 			opacity: 1;
+			transition: all 0.5s ease;
 		}
 
 		@keyframes slideLeft {
@@ -464,13 +468,14 @@
 			height: 100%;
 			visibility: hidden;
 			opacity: 0;
-			transition: all 0.5s ease;
+			/* transition: all 0.5s ease; */
 			z-index: 105;
 		}
 
 		.menu-overlay.active {
 			visibility: visible;
 			opacity: 0.6;
+			transition: all 0.5s ease;
 		}
 	}
 </style>
