@@ -239,13 +239,6 @@
 		cursor: pointer;
 	}
 
-	/* .sub-item {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: flex-start;
-	} */
-
 	.sub-item__c {
 		flex-basis: 33%;
 	}
@@ -282,8 +275,6 @@
 			visibility: hidden;
 		}
 		.sub-menu.active {
-			/* display: block;
-			transform: translate(0%); */
 			visibility: visible;
 			opacity: 1;
 		}
