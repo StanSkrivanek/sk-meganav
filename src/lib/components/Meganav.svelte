@@ -6,27 +6,59 @@
 	let isSubMenuActive = false;
 
 	onMount(() => {
-		const hasSub = document.querySelector('.has-children > p');
+		const hasPopup = document.querySelector('.has-children > p');
 		const subMenu = document.querySelector('.sub-menu');
 		const menuLinks = document.querySelectorAll('.menu-main a');
 		const subMenuLinks = document.querySelectorAll('.sub-menu a');
 
+		// TODO: fix submenu slide on mouse leave more efficiently
+		// sel listeners on page load ...
 		menuLinks.forEach((link) => {
 			link.addEventListener('click', () => {
 				isMenuActive = false;
 			});
-		});
-		
-		subMenuLinks.forEach((link) => {
-			link.addEventListener('click', () => {
+			subMenu.addEventListener('mouseleave', () => {
 				isSubMenuActive = false;
-				subMenu.classList.remove('active');
 			});
 		});
 
-		hasSub.addEventListener('click', () => {
+		subMenuLinks.forEach((link) => {
+			link.addEventListener('click', () => {
+				isSubMenuActive = false;
+			});
+		});
+
+		hasPopup.addEventListener('click', () => {
 			isSubMenuActive = true;
 		});
+		// ... and on page resize
+		onresize = (event) => {
+			let w = event.target.innerWidth;
+			// toggle functionality for submenu ...
+			if (w > 991) {
+				menuLinks.forEach((link) => {
+					link.addEventListener('click', () => {
+						isSubMenuActive = false;
+					});
+				});
+				subMenu.addEventListener('mouseleave', () => {
+					isSubMenuActive = false;
+				});
+			}
+
+			
+			if (w < 991) {
+				menuLinks.forEach((link) => {
+					link.addEventListener('click', () => {
+						isSubMenuActive = true;
+					});
+				});
+				//... prevent sub menu slide on mouse leave to `back` btn
+				subMenu.addEventListener('mouseleave', () => {
+					isSubMenuActive = true;
+				});
+			}
+		};
 	});
 </script>
 
@@ -85,7 +117,7 @@
 					</div>
 					<ul role="list" class="menu-main">
 						<li><a href="/">Home</a></li>
-						<li><a href="/contact">contact Us</a></li>
+						<!-- <li><a href="/contact">Contact Us</a></li> -->
 						<li class="has-children">
 							<p aria-haspopup="true">Services</p>
 
@@ -126,7 +158,7 @@
 								</div>
 							</div>
 						</li>
-						<li><a href="/">Contact Us</a></li>
+						<li><a href="/contact">Contact Us</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -148,7 +180,6 @@
 </header>
 
 <style>
-
 	/* NAVIGATION */
 	.nav-container {
 		width: 100%;
@@ -271,14 +302,20 @@
 	/* ================ MEDIA QUERIES ================ */
 
 	@media (width > 991px) {
-		.nav-btn--trigger {
-			visibility: hidden;
-		}
+		/* .has-children:hover .sub-menu {
+			visibility: visible;
+			opacity: 1;
+		} */
 		.sub-menu.active {
 			visibility: visible;
 			opacity: 1;
 		}
+
+		.nav-btn--trigger {
+			visibility: hidden;
+		}
 	}
+
 	@media (width < 991px) {
 		.menu-overlay.active {
 			visibility: visible;
