@@ -1,0 +1,42 @@
+@font-face {
+	font-family: 'inter';
+	src: url('fonts/Inter-Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+:root {
+	--clr-text-base: rgb(15 23 42);
+	--clr-text-secondary: rgb(51 65 85);
+	--clr-text-gray: rgb(100 116 139);
+	--border: 1px solid #eaeaea;
+	--nav-link-hover: hsl(194, 100%, 90%);
+	--mobile-nav-header: 48px;
+}
+
+/* Normalize CSS is installed  as dependency*/
+
+
+body {
+	padding: 0;
+	margin: 0;
+	font-size: 18px;
+	font-family: inter;
+	color: var(--clr-text-base);
+}
+* {
+	margin: 0;
+	box-sizing: border-box;
+}
+:before,
+:after {
+	box-sizing: border-box;
+}
+
+button{
+	font-family: inter;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+	padding: 0;
+}
