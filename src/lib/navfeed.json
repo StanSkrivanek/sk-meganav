@@ -1,0 +1,32 @@
+{
+	"submenu": {
+		"trainings": [
+			{
+				"title": "Training 1",
+				"path": "training-1"
+			},
+			{
+				"title": "Training 2",
+				"path": "training-2"
+			},
+			{
+				"title": "Training 3",
+				"path": "training-3"
+			}
+		],
+		"courses": [
+			{
+				"title": "Course 1",
+				"path": "course-1"
+			},
+			{
+				"title": "Course 2",
+				"path": "course-2"
+			},
+			{
+				"title": "Course 3",
+				"path": "course-3"
+			}
+		]
+	}
+}

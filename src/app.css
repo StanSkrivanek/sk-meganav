@@ -6,9 +6,10 @@
 	font-display: swap;
 }
 :root {
-	--clr-text-base: rgb(15 23 42);
-	--clr-text-secondary: rgb(51 65 85);
+	--clr-text-base: rgb(41, 53, 70);
+	--clr-text-secondary: rgb(66, 80, 100);
 	--clr-text-gray: rgb(100 116 139);
+	--clr-text-black: rgb(15 23 42);
 	--border: 1px solid #eaeaea;
 	--nav-link-hover: hsl(194, 100%, 90%);
 	--mobile-nav-header: 48px;

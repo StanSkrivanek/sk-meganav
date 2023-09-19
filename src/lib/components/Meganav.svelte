@@ -1,6 +1,9 @@
 <script>
 	// @ts-nocheck
 	import { onMount } from 'svelte';
+	import {submenu} from '../navfeed.json';
+
+	$: console.log(submenu);
 	// add class active to menu when click on nav-btn--trigger
 	let isMenuActive = false;
 	let isSubMenuActive = false;
@@ -45,7 +48,6 @@
 					isSubMenuActive = false;
 				});
 			}
-
 
 			if (w < 991) {
 				menuLinks.forEach((link) => {
@@ -266,8 +268,9 @@
 		display: block;
 		padding: 0.5rem;
 		text-decoration: none;
-		color: var(--clr-text-secondary);
 		cursor: pointer;
+		color: var(--clr-text-base);
+		/* color: var(--clr-text-secondary); */
 	}
 
 	.sub-item__c {
