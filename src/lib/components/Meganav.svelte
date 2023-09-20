@@ -1,20 +1,80 @@
 <script>
 	// @ts-nocheck
 	import { onMount } from 'svelte';
-	import {submenu} from '../navfeed.json';
+	// import { submenu } from '../navfeed.json';
 
-	$: console.log(submenu);
+	// $: console.log(submenu);
 	// add class active to menu when click on nav-btn--trigger
 	let isMenuActive = false;
 	let isSubMenuActive = false;
+	let title = '';
+	let hasPopup;
+	let subMenu;
+	let menuLinks;
+	let subMenuLinks;
+
+	// REFRESH FUNCTIONALITY ON RESIZE
+	
+	$: onresize = () => {
+		if (window.innerWidth > 991) {
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isMenuActive = false;
+				});
+				subMenu.addEventListener('mouseleave', () => {
+					isSubMenuActive = false;
+				});
+			});
+
+			subMenuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = false;
+				});
+			});
+			// FUNCTIONALITY FOR SUBMENU ...
+			hasPopup.addEventListener('click', () => {
+				isSubMenuActive = true;
+			});
+
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = false;
+				});
+			});
+
+			subMenu.addEventListener('mouseleave', () => {
+				isSubMenuActive = false;
+			});
+		}
+		if (window.innerWidth < 991) {
+			console.log('SMALLER');
+
+			hasPopup.addEventListener('click', () => {
+				isSubMenuActive = true;
+				title = hasPopup.textContent;
+			});
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = true;
+				});
+			});
+			//... prevent sub menu slide on mouse leave to `back` btn
+			subMenu.addEventListener('mouseleave', () => {
+				isSubMenuActive = true;
+			});
+		}
+	};
+
+	// get window innerwidth on resize
 
 	onMount(() => {
-		const hasPopup = document.querySelector('.has-children > p');
-		const subMenu = document.querySelector('.sub-menu');
-		const menuLinks = document.querySelectorAll('.menu-main a');
-		const subMenuLinks = document.querySelectorAll('.sub-menu a');
+		hasPopup = document.querySelector('.has-children > p');
+		subMenu = document.querySelector('.sub-menu');
+		menuLinks = document.querySelectorAll('.menu-main a');
+		subMenuLinks = document.querySelectorAll('.sub-menu a');
 
-		// TODO: fix submenu slide on mouse leave more efficiently
+		// SET BASIC FUNCTIONALITY FOR SUBMENU ON MOUNT ...
+
 		// sel listeners on page load ...
 		menuLinks.forEach((link) => {
 			link.addEventListener('click', () => {
@@ -30,39 +90,42 @@
 				isSubMenuActive = false;
 			});
 		});
-
+		// BASIC FUNCTIONALITY FOR SUBMENU ...
 		hasPopup.addEventListener('click', () => {
 			isSubMenuActive = true;
 		});
-		// ... and on page resize
-		onresize = (event) => {
-			let w = event.target.innerWidth;
-			// toggle functionality for submenu ...
-			if (w > 991) {
-				menuLinks.forEach((link) => {
-					link.addEventListener('click', () => {
-						isSubMenuActive = false;
-					});
-				});
-				subMenu.addEventListener('mouseleave', () => {
-					isSubMenuActive = false;
-				});
-			}
 
-			if (w < 991) {
-				menuLinks.forEach((link) => {
-					link.addEventListener('click', () => {
-						isSubMenuActive = true;
-					});
-				});
-				//... prevent sub menu slide on mouse leave to `back` btn
-				subMenu.addEventListener('mouseleave', () => {
+		menuLinks.forEach((link) => {
+			link.addEventListener('click', () => {
+				isSubMenuActive = false;
+			});
+		});
+
+		subMenu.addEventListener('mouseleave', () => {
+			isSubMenuActive = false;
+		});
+		// ... and on page resize
+
+		if (window.innerWidth < 991) {
+			hasPopup.addEventListener('click', () => {
+				isSubMenuActive = true;
+				title = hasPopup.textContent;
+			});
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
 					isSubMenuActive = true;
 				});
-			}
-		};
+			});
+			//... prevent sub menu slide on mouse leave to `back` btn
+			subMenu.addEventListener('mouseleave', () => {
+				isSubMenuActive = true;
+			});
+		}
+		// };
 	});
 </script>
+
+<svelte:window on:resize={onresize} />
 
 <header class="header">
 	<div class="nav-container">
@@ -90,7 +153,10 @@
 								class="nav-btn--back"
 								role="button"
 								tabindex="0"
-								on:click={() => (isSubMenuActive = !isSubMenuActive)}
+								on:click={() => {
+									isSubMenuActive = !isSubMenuActive;
+									title = '';
+								}}
 								on:keydown={(e) => {
 									if (e.key === 'Enter' || e.key === ' ') {
 										isSubMenuActive = !isSubMenuActive;
@@ -101,7 +167,7 @@
 								&#10229;
 							</div>
 						{/if}
-						<div class="nav-current-title">title</div>
+						<div class="nav-current-title">{title}</div>
 						<div
 							class="nav-btn--close"
 							aria-label="Close menu"
@@ -364,7 +430,7 @@
 			overflow-y: auto;
 			height: 100%;
 			transform: translate(-100%);
-			/* transition: all 0.5s ease; */
+			transition: all 0.5s ease;
 			z-index: 200;
 		}
 
