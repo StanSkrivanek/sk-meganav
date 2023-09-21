@@ -1,10 +1,7 @@
 <script>
 	// @ts-nocheck
 	import { onMount } from 'svelte';
-	// import { submenu } from '../navfeed.json';
 
-	// $: console.log(submenu);
-	// add class active to menu when click on nav-btn--trigger
 	let isMenuActive = false;
 	let isSubMenuActive = false;
 	let title = '';
@@ -14,8 +11,12 @@
 	let subMenuLinks;
 
 	// REFRESH FUNCTIONALITY ON RESIZE
-	
+	// TODO: simplify this code ... DRY
 	$: onresize = () => {
+		// reset visibility and opacity on resize
+		// isMenuActive = false;
+		// isSubMenuActive = false;
+
 		if (window.innerWidth > 991) {
 			menuLinks.forEach((link) => {
 				link.addEventListener('click', () => {
@@ -46,9 +47,8 @@
 				isSubMenuActive = false;
 			});
 		}
+		// on smaller screens - mobile devices
 		if (window.innerWidth < 991) {
-			console.log('SMALLER');
-
 			hasPopup.addEventListener('click', () => {
 				isSubMenuActive = true;
 				title = hasPopup.textContent;
@@ -187,7 +187,7 @@
 						<li><a href="/">Home</a></li>
 						<!-- <li><a href="/contact">Contact Us</a></li> -->
 						<li class="has-children">
-							<p aria-haspopup="true">Services</p>
+							<p aria-haspopup="true">Services <span class="chevron">&#x276F;</span></p>
 
 							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
 								<!-- Active -->
@@ -253,12 +253,14 @@
 		width: 100%;
 		background-color: #fff;
 		border: var(--border);
+		height: var(--mobile-nav-header);
 	}
 	.row {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		height: 100%;
 	}
 	.nav-logo {
 		font-size: 1.5rem;
@@ -281,7 +283,13 @@
 		align-items: center;
 		text-decoration: none;
 		padding: 10px;
-		color: var(--clr-text-base);
+		color: var(--clr-text-secondary);
+	}
+
+	.has-children:hover,
+	.menu-main > li > a:hover {
+		background-color: var(--nav-link-hover);
+		border-radius: 0.4rem;
 	}
 	.menu-main {
 		display: flex;
@@ -291,6 +299,14 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
+	}
+
+	.chevron {
+		display: inline-block;
+		font-size: 0.9rem;
+		margin-left: 0.25rem;
+		color: var(--clr-text-secondary);
+		transform: rotate(90deg);
 	}
 	.nav-btn--trigger {
 		font-size: 1.5rem;
@@ -335,8 +351,7 @@
 		padding: 0.5rem;
 		text-decoration: none;
 		cursor: pointer;
-		color: var(--clr-text-base);
-		/* color: var(--clr-text-secondary); */
+		color: var(--clr-text-secondary);
 	}
 
 	.sub-item__c {
@@ -480,7 +495,7 @@
 			transform: translate(50%);
 			width: auto;
 			padding: 1rem;
-			/* transition: all 0.5s ease; */
+			transition: all 0.5s ease;
 			overflow-y: auto;
 			visibility: hidden;
 			opacity: 0;
