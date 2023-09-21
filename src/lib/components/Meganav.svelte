@@ -130,7 +130,7 @@
 <header class="header">
 	<div class="nav-container">
 		<div class="row">
-			<div class="nav-logo">LOGO</div>
+			<a class="nav-logo" href="/"><img src="/images/svg/hiStranger-1.svg" alt="logo" /></a>
 			<!-- menu starts here -->
 			<div class="nav-center">
 				<div
@@ -263,9 +263,9 @@
 		height: 100%;
 	}
 	.nav-logo {
-		font-size: 1.5rem;
-		font-weight: 700;
-		padding: 0.5rem 1rem;
+		width: var(--mobile-nav-header);
+		height: var(--mobile-nav-header);
+		padding: 0.5rem;
 	}
 
 	/* MENU */
@@ -445,13 +445,13 @@
 			overflow-y: auto;
 			height: 100%;
 			transform: translate(-100%);
-			transition: all 0.5s ease;
+			transition: transform 0.5s ease;
 			z-index: 200;
 		}
 
 		.menu.active {
 			transform: translate(0%);
-			transition: all 0.5s ease;
+			transition: transform 0.5s ease;
 		}
 
 		.nav-header-mobile {
@@ -518,27 +518,27 @@
 			transform: translate(0%);
 			visibility: visible;
 			opacity: 1;
-			transition: all 0.5s ease;
+			transition: transform 0.5s ease;
 		}
 
 		@keyframes slideLeft {
 			0% {
-				opacity: 0;
+				/* opacity: 0; */
 				transform: translateX(100%);
 			}
 			100% {
-				opacity: 1;
+				/* opacity: 1; */
 				transform: translateX(0%);
 			}
 		}
 
 		@keyframes slideRight {
 			0% {
-				opacity: 1;
+				/* opacity: 1; */
 				transform: translateX(0%);
 			}
 			100% {
-				opacity: 0;
+				/* opacity: 0; */
 				transform: translateX(100%);
 			}
 		}
