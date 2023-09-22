@@ -68,10 +68,10 @@
 	// get window innerwidth on resize
 
 	onMount(() => {
-		hasPopup = document.querySelector('.has-children > p');
+		hasPopup = [...document.querySelectorAll('.has-children > p')];
 		subMenu = document.querySelector('.sub-menu');
-		menuLinks = document.querySelectorAll('.menu-main a');
-		subMenuLinks = document.querySelectorAll('.sub-menu a');
+		menuLinks = [...document.querySelectorAll('.menu-main a')];
+		subMenuLinks = [...document.querySelectorAll('.sub-menu a')];
 
 		// SET BASIC FUNCTIONALITY FOR SUBMENU ON MOUNT ...
 
@@ -223,6 +223,23 @@
 										<li><a href="/">Advocacy Training</a></li>
 										<li><a href="/contact">Continuing Practitioner Development</a></li>
 									</ul>
+								</div>
+							</div>
+						</li>
+						<li class="has-children">
+							<p aria-haspopup="true">TEST 2<span class="chevron">&#x276F;</span></p>
+
+							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
+								<!-- Active -->
+								<div class="sub-item__c">
+									<ul>
+										<li><a href="/">OVERVIEW</a></li>
+										<li><a href="/contact">ALL TRAININGS</a></li>
+										<li><a href="/">OPEN FOR APPLICATIONS</a></li>
+									</ul>
+									<div class="image-item">
+										<img src="https://picsum.photos/300/200" alt="" />
+									</div>
 								</div>
 							</div>
 						</li>
