@@ -5,8 +5,8 @@
 	let isMenuActive = false;
 	let isSubMenuActive = false;
 	let title = '';
-	let hasPopup;
-	let subMenu;
+	let hasSubMenu;
+	let subMenus;
 	let menuLinks;
 	let subMenuLinks;
 
@@ -22,8 +22,10 @@
 				link.addEventListener('click', () => {
 					isMenuActive = false;
 				});
-				subMenu.addEventListener('mouseleave', () => {
-					isSubMenuActive = false;
+				subMenus.forEach((node) => {
+					node.addEventListener('mouseleave', () => {
+						isSubMenuActive = false;
+					});
 				});
 			});
 
@@ -32,9 +34,11 @@
 					isSubMenuActive = false;
 				});
 			});
-			// FUNCTIONALITY FOR SUBMENU ...
-			hasPopup.addEventListener('click', () => {
-				isSubMenuActive = true;
+			// FUNCTIONALITY FOR subMenus ...
+			hasSubMenu.forEach((node) => {
+				node.addEventListener('click', () => {
+					isSubMenuActive = true;
+				});
 			});
 
 			menuLinks.forEach((link) => {
@@ -43,15 +47,19 @@
 				});
 			});
 
-			subMenu.addEventListener('mouseleave', () => {
-				isSubMenuActive = false;
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = false;
+				});
 			});
 		}
 		// on smaller screens - mobile devices
 		if (window.innerWidth < 991) {
-			hasPopup.addEventListener('click', () => {
-				isSubMenuActive = true;
-				title = hasPopup.textContent;
+			hasSubMenu.forEach((node) => {
+				node.addEventListener('click', () => {
+					isSubMenuActive = true;
+					title = node.textContent;
+				});
 			});
 			menuLinks.forEach((link) => {
 				link.addEventListener('click', () => {
@@ -59,8 +67,10 @@
 				});
 			});
 			//... prevent sub menu slide on mouse leave to `back` btn
-			subMenu.addEventListener('mouseleave', () => {
-				isSubMenuActive = true;
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = true;
+				});
 			});
 		}
 	};
@@ -68,20 +78,22 @@
 	// get window innerwidth on resize
 
 	onMount(() => {
-		hasPopup = [...document.querySelectorAll('.has-children > p')];
-		subMenu = document.querySelector('.sub-menu');
+		hasSubMenu = [...document.querySelectorAll('.has-children > p')];
+		subMenus = [...document.querySelectorAll('.sub-menu')];
 		menuLinks = [...document.querySelectorAll('.menu-main a')];
 		subMenuLinks = [...document.querySelectorAll('.sub-menu a')];
 
-		// SET BASIC FUNCTIONALITY FOR SUBMENU ON MOUNT ...
+		// SET BASIC FUNCTIONALITY FOR subMenus ON MOUNT ...
 
 		// sel listeners on page load ...
 		menuLinks.forEach((link) => {
 			link.addEventListener('click', () => {
 				isMenuActive = false;
 			});
-			subMenu.addEventListener('mouseleave', () => {
-				isSubMenuActive = false;
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = false;
+				});
 			});
 		});
 
@@ -90,9 +102,11 @@
 				isSubMenuActive = false;
 			});
 		});
-		// BASIC FUNCTIONALITY FOR SUBMENU ...
-		hasPopup.addEventListener('click', () => {
-			isSubMenuActive = true;
+		// BASIC FUNCTIONALITY FOR subMenus ...
+		hasSubMenu.forEach((node) => {
+			node.addEventListener('click', () => {
+				isSubMenuActive = true;
+			});
 		});
 
 		menuLinks.forEach((link) => {
@@ -101,15 +115,19 @@
 			});
 		});
 
-		subMenu.addEventListener('mouseleave', () => {
-			isSubMenuActive = false;
+		subMenus.forEach((node) => {
+			node.addEventListener('mouseleave', () => {
+				isSubMenuActive = false;
+			});
 		});
 		// ... and on page resize
 
 		if (window.innerWidth < 991) {
-			hasPopup.addEventListener('click', () => {
-				isSubMenuActive = true;
-				title = hasPopup.textContent;
+			hasSubMenu.forEach((node) => {
+				node.addEventListener('click', () => {
+					isSubMenuActive = true;
+					title = node.textContent;
+				});
 			});
 			menuLinks.forEach((link) => {
 				link.addEventListener('click', () => {
@@ -117,8 +135,10 @@
 				});
 			});
 			//... prevent sub menu slide on mouse leave to `back` btn
-			subMenu.addEventListener('mouseleave', () => {
-				isSubMenuActive = true;
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = true;
+				});
 			});
 		}
 		// };
@@ -187,7 +207,7 @@
 						<li><a href="/">Home</a></li>
 						<!-- <li><a href="/contact">Contact Us</a></li> -->
 						<li class="has-children">
-							<p aria-haspopup="true">Services <span class="chevron">&#x276F;</span></p>
+							<p aria-hasSubMenu="true">Services <span class="chevron">&#x276F;</span></p>
 
 							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
 								<!-- Active -->
@@ -227,7 +247,7 @@
 							</div>
 						</li>
 						<li class="has-children">
-							<p aria-haspopup="true">TEST 2<span class="chevron">&#x276F;</span></p>
+							<p aria-hasSubMenu="true">TEST 2<span class="chevron">&#x276F;</span></p>
 
 							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
 								<!-- Active -->
@@ -330,7 +350,7 @@
 		cursor: pointer;
 		padding: 0.5rem 1rem;
 	}
-	/* SUBMENU */
+	/* subMenus */
 	.sub-menu {
 		position: absolute;
 		display: flex;
