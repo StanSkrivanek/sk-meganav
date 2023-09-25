@@ -138,9 +138,15 @@
 							</div>
 						</li>
 						<li class="has-children">
-							<p aria-hasSubMenu="true" on:click={() => toggleSubMenu(2)}>
-								TEST 2<span class="chevron">&#x276F;</span>
-							</p>
+								<span
+								role="button"
+								aria-haspopup="true"
+								on:click={() => toggleSubMenu(2)}
+								on:keydown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') toggleSubMenu(2);
+								}}
+								tabindex="0">Services <span class="chevron">&#x276F;</span></span
+							>
 
 							<div class="sub-menu mega-menu {activeSubMenu === 2 ? 'active' : ''}">
 								<!-- Active -->
