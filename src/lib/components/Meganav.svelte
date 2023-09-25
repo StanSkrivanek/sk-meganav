@@ -7,23 +7,6 @@
 	let subMenus;
 	let menuLinks;
 	let subMenuLinks;
-	// 	hasSubMenu?.forEach((node) => {
-
-	// 		node.addEventListener('click', () => {
-	// 			node.setAttribute('aria-expanded', 'true');
-
-	// 		});
-	// 	});
-	// menuLinks?.forEach((link) => {
-	// 		link.addEventListener('click', () => {
-	// 			isMenuActive = false;
-	// 		});
-	// 		subMenus.forEach((node) => {
-	// 			node.addEventListener('mouseleave', () => {
-	// 				isSubMenuActive = false;
-	// 			});
-	// 		});
-	// 	});
 	let activeSubMenu = null; // Initialize active submenu as null
 
 	// Function to toggle the active submenu
@@ -47,9 +30,9 @@
 		}
 	}
 	onMount(() => {
-		hasSubMenu = [...document.querySelectorAll('.has-children > p')];
+		// hasSubMenu = [...document.querySelectorAll('.has-children > span')];
 		subMenus = [...document.querySelectorAll('.sub-menu')];
-		menuLinks = [...document.querySelectorAll('.menu-main a')];
+		// menuLinks = [...document.querySelectorAll('.menu-main a')];
 		subMenuLinks = [...document.querySelectorAll('.sub-menu a')];
 
 		subMenus.forEach((node) => {
