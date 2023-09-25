@@ -2,70 +2,150 @@
 	// @ts-nocheck
 	import { onMount } from 'svelte';
 
+	let isMenuActive = false;
+	let isSubMenuActive = false;
 	let title = '';
 	let hasSubMenu;
 	let subMenus;
 	let menuLinks;
 	let subMenuLinks;
-	// 	hasSubMenu?.forEach((node) => {
 
-	// 		node.addEventListener('click', () => {
-	// 			node.setAttribute('aria-expanded', 'true');
+	// REFRESH FUNCTIONALITY ON RESIZE
+	// TODO: simplify this code ... DRY
+	$: onresize = () => {
+		// reset visibility and opacity on resize
+		// isMenuActive = false;
+		// isSubMenuActive = false;
 
-	// 		});
-	// 	});
-	// menuLinks?.forEach((link) => {
-	// 		link.addEventListener('click', () => {
-	// 			isMenuActive = false;
-	// 		});
-	// 		subMenus.forEach((node) => {
-	// 			node.addEventListener('mouseleave', () => {
-	// 				isSubMenuActive = false;
-	// 			});
-	// 		});
-	// 	});
-	let activeSubMenu = null; // Initialize active submenu as null
+		if (window.innerWidth > 991) {
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isMenuActive = false;
+				});
+				subMenus.forEach((node) => {
+					node.addEventListener('mouseleave', () => {
+						isSubMenuActive = false;
+					});
+				});
+			});
 
-	// Function to toggle the active submenu
-	function toggleSubMenu(subMenu) {
-		if (activeSubMenu === subMenu) {
-			activeSubMenu = null; // Close the submenu
-		} else {
-			activeSubMenu = subMenu; // Open the submenu
+			subMenuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = false;
+				});
+			});
+			// FUNCTIONALITY FOR subMenus ...
+			hasSubMenu.forEach((node) => {
+				node.addEventListener('click', () => {
+					isSubMenuActive = true;
+				});
+			});
+
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = false;
+				});
+			});
+
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = false;
+				});
+			});
 		}
-	}
-
-	// Function to close the active submenu
-	function closeSubMenu() {
-		activeSubMenu = null;
-	}
-
-	// Function to handle mouse leave event
-	function handleMouseLeave() {
-		if (activeSubMenu) {
-			closeSubMenu();
+		// on smaller screens - mobile devices
+		if (window.innerWidth < 991) {
+			hasSubMenu.forEach((node) => {
+				node.addEventListener('click', () => {
+					isSubMenuActive = true;
+					title = node.textContent;
+				});
+			});
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = true;
+				});
+			});
+			//... prevent sub menu slide on mouse leave to `back` btn
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = true;
+				});
+			});
 		}
-	}
+	};
+
+	// get window innerwidth on resize
+
 	onMount(() => {
 		hasSubMenu = [...document.querySelectorAll('.has-children > p')];
 		subMenus = [...document.querySelectorAll('.sub-menu')];
 		menuLinks = [...document.querySelectorAll('.menu-main a')];
 		subMenuLinks = [...document.querySelectorAll('.sub-menu a')];
 
-		subMenus.forEach((node) => {
-			node.addEventListener('mouseleave', () => {
-				handleMouseLeave();
+		// SET BASIC FUNCTIONALITY FOR subMenus ON MOUNT ...
+
+		// sel listeners on page load ...
+		menuLinks.forEach((link) => {
+			link.addEventListener('click', () => {
+				isMenuActive = false;
+			});
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = false;
+				});
 			});
 		});
+
 		subMenuLinks.forEach((link) => {
 			link.addEventListener('click', () => {
-				closeSubMenu();
+				isSubMenuActive = false;
 			});
 		});
+		// BASIC FUNCTIONALITY FOR subMenus ...
+		hasSubMenu.forEach((node) => {
+			node.addEventListener('click', () => {
+				isSubMenuActive = true;
+			});
+		});
+
+		menuLinks.forEach((link) => {
+			link.addEventListener('click', () => {
+				isSubMenuActive = false;
+			});
+		});
+
+		subMenus.forEach((node) => {
+			node.addEventListener('mouseleave', () => {
+				isSubMenuActive = false;
+			});
+		});
+		// ... and on page resize
+
+		if (window.innerWidth < 991) {
+			hasSubMenu.forEach((node) => {
+				node.addEventListener('click', () => {
+					isSubMenuActive = true;
+					title = node.textContent;
+				});
+			});
+			menuLinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					isSubMenuActive = true;
+				});
+			});
+			//... prevent sub menu slide on mouse leave to `back` btn
+			subMenus.forEach((node) => {
+				node.addEventListener('mouseleave', () => {
+					isSubMenuActive = true;
+				});
+			});
+		}
+		// };
 	});
 </script>
 
-<!-- <svelte:window on:resize={onresize} /> -->
+<svelte:window on:resize={onresize} />
 
 <header class="header">
 	<div class="nav-container">
@@ -73,16 +153,53 @@
 			<a class="nav-logo" href="/"><img src="/images/svg/hiStranger-1.svg" alt="logo" /></a>
 			<!-- menu starts here -->
 			<div class="nav-center">
-				<div class="menu-overlay" role="button" tabindex="0" />
+				<div
+					class="menu-overlay"
+					class:active={isMenuActive}
+					role="button"
+					tabindex="0"
+					on:click={() => (isMenuActive = !isMenuActive)}
+					on:keydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							isMenuActive = !isMenuActive;
+						}
+					}}
+				/>
 
-				<nav class="menu">
+				<nav class="menu" class:active={isMenuActive}>
 					<div class="nav-header-mobile">
-						<div class="nav-btn--back" role="button" tabindex="0" aria-label="Go back">
-							&#10229;
-						</div>
-
+						{#if isSubMenuActive === true}
+							<div
+								class="nav-btn--back"
+								role="button"
+								tabindex="0"
+								on:click={() => {
+									isSubMenuActive = !isSubMenuActive;
+									title = '';
+								}}
+								on:keydown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') {
+										isSubMenuActive = !isSubMenuActive;
+									}
+								}}
+								aria-label="Go back"
+							>
+								&#10229;
+							</div>
+						{/if}
 						<div class="nav-current-title">{title}</div>
-						<div class="nav-btn--close" aria-label="Close menu" role="button" tabindex="0">
+						<div
+							class="nav-btn--close"
+							aria-label="Close menu"
+							role="button"
+							tabindex="0"
+							on:click={() => (isMenuActive = !isMenuActive)}
+							on:keydown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									isMenuActive = !isMenuActive;
+								}
+							}}
+						>
 							<span>&#10005;</span>
 						</div>
 					</div>
@@ -90,17 +207,9 @@
 						<li><a href="/">Home</a></li>
 						<!-- <li><a href="/contact">Contact Us</a></li> -->
 						<li class="has-children">
-							<span
-								role="button"
-								aria-haspopup="true"
-								on:click={() => toggleSubMenu(1)}
-								on:keydown={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') toggleSubMenu(1);
-								}}
-								tabindex="0">Services <span class="chevron">&#x276F;</span></span
-							>
+							<p aria-hasSubMenu="true">Services <span class="chevron">&#x276F;</span></p>
 
-							<div class="sub-menu mega-menu {activeSubMenu === 1 ? 'active' : ''}">
+							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
 								<!-- Active -->
 								<div class="sub-item__c">
 									<ul>
@@ -138,11 +247,9 @@
 							</div>
 						</li>
 						<li class="has-children">
-							<p aria-hasSubMenu="true" on:click={() => toggleSubMenu(2)}>
-								TEST 2<span class="chevron">&#x276F;</span>
-							</p>
+							<p aria-hasSubMenu="true">TEST 2<span class="chevron">&#x276F;</span></p>
 
-							<div class="sub-menu mega-menu {activeSubMenu === 2 ? 'active' : ''}">
+							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
 								<!-- Active -->
 								<div class="sub-item__c">
 									<ul>
@@ -161,7 +268,16 @@
 				</nav>
 			</div>
 
-			<button class="nav-btn--trigger" aria-label="Toggle menu" role="button">
+			<button
+				class="nav-btn--trigger"
+				aria-label="Toggle menu"
+				on:click={() => (isMenuActive = !isMenuActive)}
+				on:keydown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						isMenuActive = !isMenuActive;
+					}
+				}}
+			>
 				<span>&#9776;</span>
 			</button>
 		</div>
