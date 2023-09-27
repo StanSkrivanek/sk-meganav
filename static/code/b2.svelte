@@ -4,19 +4,17 @@
 
 	let title = '';
 	let hasSubMenu;
-	let menuLinks;
 	let subMenus;
+	let menuLinks;
 	let subMenuLinks;
 	let activeSubMenu = null; // Initialize active submenu as null
-	let isMenuActive = false;
-	let isSubMenuActive = false;
+
 	// Function to toggle the active submenu
 	function toggleSubMenu(subMenu) {
 		if (activeSubMenu === subMenu) {
 			activeSubMenu = null; // Close the submenu
-
 		} else {
-			activeSubMenu = subMenu;
+			activeSubMenu = subMenu; // Open the submenu
 		}
 	}
 
@@ -25,52 +23,32 @@
 		activeSubMenu = null;
 	}
 
+	// Function to handle mouse leave event
+	function handleMouseLeave() {
+		if (activeSubMenu) {
+			closeSubMenu();
+		}
+	}
 	onMount(() => {
-		hasSubMenu = [...document.querySelectorAll('.has-children > span')];
+		// hasSubMenu = [...document.querySelectorAll('.has-children > span')];
 		subMenus = [...document.querySelectorAll('.sub-menu')];
-		menuLinks = [...document.querySelectorAll('.menu-main a')];
+		// menuLinks = [...document.querySelectorAll('.menu-main a')];
 		subMenuLinks = [...document.querySelectorAll('.sub-menu a')];
 
-		menuLinks.forEach((link) => {
-			link.addEventListener('click', () => {
-				if (window.innerWidth < 991) {
-					// close main sidebar menu
-					isMenuActive = false;
-				}
-				closeSubMenu();
-			});
-		});
-		hasSubMenu.forEach((node) => {
-			node.addEventListener('click', () => {
-				if (window.innerWidth < 991) {
-					isSubMenuActive = !isSubMenuActive;
-					// take node child -> prevent display chevron
-					title = node.childNodes[0].nodeValue;
-					return;
-				}
-				// do some stuff ??
-			});
-		});
 		subMenus.forEach((node) => {
 			node.addEventListener('mouseleave', () => {
-				if (window.innerWidth < 991) {
-					return;
-				}
-				closeSubMenu();
+				handleMouseLeave();
 			});
 		});
-
 		subMenuLinks.forEach((link) => {
 			link.addEventListener('click', () => {
-				if (window.innerWidth < 991) {
-					isMenuActive = false;
-					isSubMenuActive = false;
-				}
 				closeSubMenu();
 			});
 		});
 	});
 </script>
+
+<!-- <svelte:window on:resize={onresize} /> -->
 
 <header class="header">
 	<div class="nav-container">
@@ -80,43 +58,14 @@
 			<div class="nav-center">
 				<div class="menu-overlay" role="button" tabindex="0" />
 
-				<nav class="menu" class:active={isMenuActive}>
+				<nav class="menu">
 					<div class="nav-header-mobile">
-						{#if isSubMenuActive === true}
-							<div
-								class="nav-btn--back"
-								role="button"
-								tabindex="0"
-								on:click={() => {
-									toggleSubMenu();
-									isSubMenuActive = false;
-									title = '';
-								}}
-								on:keydown={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') {
-										toggleSubMenu();
-										isSubMenuActive = false;
-									}
-								}}
-								aria-label="Go back"
-							>
-								&#10229;
-							</div>
-						{/if}
+						<div class="nav-btn--back" role="button" tabindex="0" aria-label="Go back">
+							&#10229;
+						</div>
 
 						<div class="nav-current-title">{title}</div>
-						<div
-							class="nav-btn--close"
-							aria-label="Close menu"
-							role="button"
-							tabindex="0"
-					on:click={() => (isMenuActive = !isMenuActive)}
-							on:keydown={(e) => {
-								if (e.key === 'Enter' || e.key === ' ') {
-									isMenuActive = !isMenuActive;
-								}
-							}}
-						>
+						<div class="nav-btn--close" aria-label="Close menu" role="button" tabindex="0">
 							<span>&#10005;</span>
 						</div>
 					</div>
@@ -172,7 +121,7 @@
 							</div>
 						</li>
 						<li class="has-children">
-							<span
+								<span
 								role="button"
 								aria-haspopup="true"
 								on:click={() => toggleSubMenu(2)}
@@ -201,16 +150,7 @@
 				</nav>
 			</div>
 
-			<button
-				class="nav-btn--trigger"
-				aria-label="Toggle menu"
-				on:click={() => (isMenuActive = !isMenuActive)}
-				on:keydown={(e) => {
-					if (e.key === 'Enter' || e.key === ' ') {
-						isMenuActive = !isMenuActive;
-					}
-				}}
-			>
+			<button class="nav-btn--trigger" aria-label="Toggle menu" role="button">
 				<span>&#9776;</span>
 			</button>
 		</div>
@@ -315,7 +255,7 @@
 		background-color: var(--nav-link-hover);
 		border-radius: 0.4rem;
 	}
-	ul li span,
+	ul li p,
 	.sub-menu a {
 		display: block;
 		padding: 0.5rem;
@@ -372,11 +312,11 @@
 	}
 
 	@media (width < 991px) {
-		/* .menu-overlay.active {
+		.menu-overlay.active {
 			visibility: visible;
 			opacity: 1;
 			transition: all 0.5s ease;
-		} */
+		}
 
 		.nav-btn--back {
 			display: flex;
@@ -438,13 +378,13 @@
 			overflow: hidden;
 			overflow-y: auto;
 		}
-		.menu-main > li > span,
+		.menu-main > li > p,
 		.menu-main > li > a {
 			display: block;
 			padding: 1rem;
 			transition: all 0.3s ease;
 		}
-		.menu-main > li > span:hover,
+		.menu-main > li > p:hover,
 		.menu-main > li > a:hover {
 			background-color: var(--nav-link-hover);
 			border-radius: 0;

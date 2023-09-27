@@ -57,8 +57,8 @@
 		if (window.innerWidth < 991) {
 			hasSubMenu.forEach((node) => {
 				node.addEventListener('click', () => {
-					isSubMenuActive = true;
-					title = node.textContent;
+					// isSubMenuActive = true;
+					// title = node.textContent;
 				});
 			});
 			menuLinks.forEach((link) => {
@@ -207,7 +207,7 @@
 						<li><a href="/">Home</a></li>
 						<!-- <li><a href="/contact">Contact Us</a></li> -->
 						<li class="has-children">
-							<p aria-hasSubMenu="true">Services <span class="chevron">&#x276F;</span></p>
+							<span aria-haspopup="true">Services <span class="chevron">&#x276F;</span></span>
 
 							<div class="sub-menu mega-menu" class:active={isSubMenuActive}>
 								<!-- Active -->
