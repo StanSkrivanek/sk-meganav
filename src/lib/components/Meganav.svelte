@@ -14,7 +14,6 @@
 	function toggleSubMenu(subMenu) {
 		if (activeSubMenu === subMenu) {
 			activeSubMenu = null; // Close the submenu
-
 		} else {
 			activeSubMenu = subMenu;
 		}
@@ -121,7 +120,7 @@
 							aria-label="Close menu"
 							role="button"
 							tabindex="0"
-					on:click={() => (isMenuActive = !isMenuActive)}
+							on:click={() => (isMenuActive = !isMenuActive)}
 							on:keydown={(e) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									isMenuActive = !isMenuActive;
@@ -253,11 +252,11 @@
 	.menu,
 	.menu-main {
 		position: relative;
-		height: 100%;
+		/* height: 100%; */
 		background-color: #fff;
 		height: 100%;
 	}
-
+	.menu-main > li > span,
 	.menu-main > li > a {
 		display: flex;
 		height: 100%;
@@ -285,7 +284,7 @@
 	.chevron {
 		display: inline-block;
 		font-size: 0.9rem;
-		margin-left: 0.25rem;
+		margin-left: 0.5rem;
 		color: var(--clr-text-secondary);
 		transform: rotate(90deg);
 	}
@@ -326,7 +325,15 @@
 		background-color: var(--nav-link-hover);
 		border-radius: 0.4rem;
 	}
-	ul li span,
+
+	/* ul li > span {
+		display: block;
+		padding: 0.5rem;
+		text-decoration: none;
+		cursor: pointer;
+		color: var(--clr-text-secondary);
+	} */
+	li > span,
 	.sub-menu a {
 		display: block;
 		padding: 0.5rem;
