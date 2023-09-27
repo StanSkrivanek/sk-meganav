@@ -78,7 +78,18 @@
 			<a class="nav-logo" href="/"><img src="/images/svg/hiStranger-1.svg" alt="logo" /></a>
 			<!-- menu starts here -->
 			<div class="nav-center">
-				<div class="menu-overlay" role="button" tabindex="0" />
+				<div
+					class="menu-overlay"
+					class:active={isMenuActive}
+					role="button"
+					tabindex="0"
+					on:click={() => (isMenuActive = !isMenuActive)}
+					on:keydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							isMenuActive = !isMenuActive;
+						}
+					}}
+				/>
 
 				<nav class="menu" class:active={isMenuActive}>
 					<div class="nav-header-mobile">
@@ -131,7 +142,7 @@
 								on:keydown={(e) => {
 									if (e.key === 'Enter' || e.key === ' ') toggleSubMenu(1);
 								}}
-								tabindex="0">Services <span class="chevron">&#x276F;</span></span
+								tabindex="0">COURSES <span class="chevron">&#x276F;</span></span
 							>
 
 							<div class="sub-menu mega-menu {activeSubMenu === 1 ? 'active' : ''}">
@@ -179,7 +190,7 @@
 								on:keydown={(e) => {
 									if (e.key === 'Enter' || e.key === ' ') toggleSubMenu(2);
 								}}
-								tabindex="0">Services <span class="chevron">&#x276F;</span></span
+								tabindex="0">TRAININGS <span class="chevron">&#x276F;</span></span
 							>
 
 							<div class="sub-menu mega-menu {activeSubMenu === 2 ? 'active' : ''}">

@@ -1,3 +1,26 @@
-# responsive navigation with Mega menu
+# Responsive navigation with Mega menu
 
-A basic principle of responsive navigation with mega menu. On smaller devices is navigation set as left sidebar with mega menu _(sub menu)_ sliding in. On larger devices is navigation set as horizontal menu with mega menu _(sub menu)_ appear under navigation.
+**Responsive Navigation with Mega Menu**
+
+**Larger Devices:**
+On larger screens, the navigation menu is horizontal, and a mega menu (sub-menu) appears beneath it.
+
+**Smaller Screens:**
+
+- The navigation menu becomes a left sidebar that slides in.
+- A header with a back button and the title of the currently open sub-menu is displayed.
+- A close button is also available.
+
+**Sub-Navigation (when open):**
+- The back button is visible when the sub-navigation slides in.
+- Clicking the back button closes the sub-navigation.
+
+**Sub-Navigation (when open) and Main Navigation (when closed):**
+- When the sub-navigation is open and the main navigation is closed, the sub-navigation remains open in its current state.
+- The sub-navigation closes when a sub-navigation link is clicked.
+
+**Main Navigation (when open):**
+- An overlay appears when the main navigation is open.
+- Clicking the overlay closes the main navigation.
+
+![demo video preview](https://cln.sh/HTJL3CBy)
